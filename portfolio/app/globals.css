@@ -1,0 +1,246 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+    themes: light --default, dark --prefersdark, cupcake;
+}
+
+@theme inline {
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+
+  /* Brand colors */
+  --color-accent-orange: #E8A33D;
+  --color-accent-red: #E1614F;
+  --color-accent-blue: #4A9EFF;
+  --color-bg-base: #080C14;
+  --color-bg-surface: #0D1220;
+  --color-bg-card: #111827;
+  --color-text-primary: #F0EDE8;
+  --color-text-muted: #8B92A9;
+  --color-border: rgba(255,255,255,0.06);
+}
+
+/* ─── Base ─────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #080C14;
+  color: #F0EDE8;
+}
+
+/* ─── Orb / gradient blobs ─────────────────────────────── */
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(120px);
+  pointer-events: none;
+  will-change: transform;
+}
+.orb-blue {
+  background: radial-gradient(circle, rgba(74,158,255,0.18) 0%, transparent 70%);
+}
+.orb-orange {
+  background: radial-gradient(circle, rgba(232,163,61,0.15) 0%, transparent 70%);
+}
+.orb-red {
+  background: radial-gradient(circle, rgba(225,97,79,0.12) 0%, transparent 70%);
+}
+
+/* ─── Glassmorphism ─────────────────────────────────────── */
+.glass {
+  background: rgba(13, 18, 32, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-card {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(232, 163, 61, 0.25);
+  box-shadow: 0 0 40px rgba(232, 163, 61, 0.06);
+}
+
+/* ─── Gradient text ─────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #E8A33D 0%, #E1614F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-blue {
+  background: linear-gradient(135deg, #4A9EFF 0%, #7B5EFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Dawn line animation ───────────────────────────────── */
+@keyframes dawn-drift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.dawn-line {
+  background: linear-gradient(
+    90deg,
+    #080c14 0%,
+    #1b2135 20%,
+    #e1614f 50%,
+    #e8a33d 75%,
+    #080c14 100%
+  );
+  background-size: 200% 100%;
+  animation: dawn-drift 10s ease-in-out infinite;
+}
+
+/* ─── Glow effects ──────────────────────────────────────── */
+.glow-orange {
+  box-shadow: 0 0 30px rgba(232, 163, 61, 0.3), 0 0 60px rgba(232, 163, 61, 0.1);
+}
+.glow-blue {
+  box-shadow: 0 0 30px rgba(74, 158, 255, 0.3), 0 0 60px rgba(74, 158, 255, 0.1);
+}
+
+/* ─── Noise texture overlay ─────────────────────────────── */
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.03;
+}
+
+/* ─── Badge ─────────────────────────────────────────────── */
+.badge-available {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  border: 1px solid rgba(74, 255, 128, 0.25);
+  background: rgba(74, 255, 128, 0.06);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: #4AFF80;
+}
+
+.badge-available::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: #4AFF80;
+  box-shadow: 0 0 6px #4AFF80;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #080C14;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(232, 163, 61, 0.3);
+  border-radius: 9999px;
+}
+
+/* ─── Section label ─────────────────────────────────────── */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #E1614F;
+}
+
+/* ─── Input dark style ──────────────────────────────────── */
+.input-dark {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #F0EDE8;
+  padding: 10px 16px;
+  width: 100%;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+.input-dark::placeholder {
+  color: #4A5568;
+}
+.input-dark:focus {
+  border-color: rgba(232, 163, 61, 0.5);
+  box-shadow: 0 0 0 3px rgba(232, 163, 61, 0.08);
+}
+
+/* ─── Button styles ─────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 24px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #E8A33D, #E1614F);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #F0EDE8;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+.btn-ghost:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dawn-line { animation: none; background-position: 60% 50%; }
+  .badge-available::before { animation: none; }
+}
