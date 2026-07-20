@@ -1,7 +1,7 @@
 "use server"
 //Action pour ajouter un projet
 
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import { ActionState } from "./presentationAction";
 import { prisma } from "@/lib/db";
 import { revalidatePath } from "next/cache";
@@ -24,7 +24,7 @@ export async function AddProjectAction(prevState:ActionState, formData: FormData
 
     if (image && image.size > 0) {
     const fileName = `${Date.now()}-${image.name}`
-    const {data,error} = await supabase.storage
+    const {data,error} = await getSupabase().storage
     .from('portfolio_img')
     .upload(fileName, image)
     if (error) {
@@ -33,7 +33,7 @@ export async function AddProjectAction(prevState:ActionState, formData: FormData
             message: "Erreur lors du chargement de l'image"
         }
     }
-    const {data: publicUrlData} = supabase.storage
+    const {data: publicUrlData} = getSupabase().storage
     .from('portfolio_img')
     .getPublicUrl(data.path)
     imageUrl = publicUrlData.publicUrl

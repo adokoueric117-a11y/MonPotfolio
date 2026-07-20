@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ success: true, message: "Supprimé avec succès" });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Delete API error:", error);
     return NextResponse.json(
       { success: false, message: "Erreur lors de la suppression" },

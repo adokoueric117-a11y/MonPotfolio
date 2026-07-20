@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import { NextResponse } from "next/server";
 import { isAdmin, isSameOrigin } from "@/lib/auth";
 
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
     if (image && image.size > 0) {
       const fileName = `${Date.now()}-${image.name}`;
-      const { data, error } = await supabase.storage
+      const { data, error } = await getSupabase().storage
         .from("portfolio_img")
         .upload(fileName, image);
       if (error) {
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
           { status: 500 }
         );
       }
-      const { data: publicUrlData } = supabase.storage
+      const { data: publicUrlData } = getSupabase().storage
         .from("portfolio_img")
         .getPublicUrl(data.path);
       imageUrl = publicUrlData.publicUrl;
@@ -46,8 +46,7 @@ export async function POST(req: Request) {
         return NextResponse.json({ success: false, message: "Titre manquant" }, { status: 400 });
       }
 
-      const updateData: any = { Titre: titre };
-      if (imageUrl) updateData.imageUrl = imageUrl;
+      const updateData = { Titre: titre, ...(imageUrl ? { imageUrl } : {}) };
 
       await prisma.experiences.update({
         where: { id },
@@ -63,8 +62,7 @@ export async function POST(req: Request) {
         );
       }
 
-      const updateData: any = { titre, description };
-      if (imageUrl) updateData.imageUrl = imageUrl;
+      const updateData = { titre, description, ...(imageUrl ? { imageUrl } : {}) };
 
       await prisma.projets.update({
         where: { id },
@@ -96,8 +94,7 @@ export async function POST(req: Request) {
         );
       }
 
-      const updateData: any = { nom, prenom, profession };
-      if (imageUrl) updateData.imageUrl = imageUrl;
+      const updateData = { nom, prenom, profession, ...(imageUrl ? { imageUrl } : {}) };
 
       await prisma.presentation.update({
         where: { id },
@@ -108,7 +105,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ success: true, message: "Modifié avec succès" });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Update API error:", error);
     return NextResponse.json(
       { success: false, message: "Erreur lors de la modification" },

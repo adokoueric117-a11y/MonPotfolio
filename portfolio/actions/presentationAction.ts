@@ -1,7 +1,7 @@
 "use server"
 
 import { prisma } from "@/lib/db";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 
@@ -29,7 +29,7 @@ import { requireAdmin } from "@/lib/auth";
    let imageUrl: string | undefined
    if (image && image.size > 0) {
     const fileName = `${Date.now()}-${image.name}`
-    const {data, error} = await supabase.storage
+    const {data, error} = await getSupabase().storage
     .from('portfolio_img')
     .upload(fileName, image)
     if(error){
@@ -38,7 +38,7 @@ import { requireAdmin } from "@/lib/auth";
          message: "erreur lors du téléchargement de l'image"
       }
     }
-    const {data: publicUrlData} = supabase.storage
+    const {data: publicUrlData} = getSupabase().storage
    .from('portfolio_img')
 .getPublicUrl(data.path)   
     imageUrl = publicUrlData.publicUrl
